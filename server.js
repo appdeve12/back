@@ -12,10 +12,25 @@ const sessionIds = ['7985490508', '9540215846'];
 const clients = {};
 
 sessionIds.forEach(id => {
-  const client = new Client({
-    authStrategy: new LocalAuth({ clientId: id }),
-    puppeteer: { headless: true },
-  });
+const client = new Client({
+  authStrategy: new LocalAuth({ 
+    clientId: id 
+  }),
+  puppeteer: {
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process',
+      '--disable-gpu'
+    ]
+  }
+});
+
 console.log("helo")
   client.on('ready', () => console.log(`✅ WhatsApp client ${id} ready`));
   client.on('auth_failure', () => console.log(`❌ WhatsApp client ${id} auth failed`));
