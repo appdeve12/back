@@ -14,8 +14,11 @@ const clients = {};
 sessionIds.forEach(id => {
 const client = new Client({
   authStrategy: new LocalAuth({ 
-    clientId: id 
+    clientId: id ,
+      dataPath: `./sessions/${id}`
   }),
+ 
+
   puppeteer: {
     headless: true,
     args: [

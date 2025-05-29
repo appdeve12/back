@@ -6,8 +6,26 @@ const clients = {};
 
 sessionIds.forEach(id => {
   const client = new Client({
-    authStrategy: new LocalAuth({ clientId: id }), // Session stored in .wwebjs_auth/id
-    puppeteer: { headless: true }
+    authStrategy: new LocalAuth({
+  clientId: id,
+  dataPath: `./sessions/${id}`  // Folder must be persistent
+}),
+
+    
+  puppeteer: {
+  headless: true,
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    '--disable-accelerated-2d-canvas',
+    '--no-first-run',
+    '--no-zygote',
+    '--single-process',
+    '--disable-gpu'
+  ]
+}
+
   });
 
   client.on('qr', qr => {
